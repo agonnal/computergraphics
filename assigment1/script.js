@@ -22,8 +22,9 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
 const grassMaterial = new THREE.MeshBasicMaterial({ color: "green" });
-const roadMaterial = new THREE.MeshBasicMaterial({ color: "gray" });
-const skyBlueBuildingMaterial = new THREE.MeshBasicMaterial({ color: "#87CEEB" });
+const roadMaterial = new THREE.MeshBasicMaterial({ color: "#696969" });
+const skyBlueBuildingMaterial = new THREE.MeshBasicMaterial({ color: "#C0C0C0" });
+const orangeBuildingMaterial = new THREE.MeshBasicMaterial({ color: "orange" }); // New orange material
 
 const groundGrass = new THREE.Mesh(
   new THREE.PlaneGeometry(40, 40),
@@ -47,10 +48,10 @@ roadAboveNewBuilding.rotation.x = -Math.PI / 2;
 roadAboveNewBuilding.position.set(11, 0.10, -6);
 scene.add(roadAboveNewBuilding);
 
-function createBuilding(x, z, width, height, depth, rotationY = 0) {
+function createBuilding(x, z, width, height, depth, rotationY = 0, material = skyBlueBuildingMaterial) {
   const building = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, depth),
-    skyBlueBuildingMaterial
+    material
   );
   building.position.set(x, height / 2, z);
   building.rotation.y = rotationY;
@@ -64,14 +65,13 @@ addLabel(topBuilding, "301");
 const middleBuilding = createBuilding(-7.5, 1, 10, 2, 5); 
 addLabel(middleBuilding, "302");
 
-
 const bottomBuilding = createBuilding(-5.5, -14, 6, 3, 7);
 addLabel(bottomBuilding, "303");
 
 const building304 = createBuilding(7.5, -14, 10, 3, 7, 0);
 addLabel(building304, "304");
 
-const additionalBuilding = createBuilding(11, 6, 8, 3, 15, Math.PI / 6);
+const additionalBuilding = createBuilding(11, 6, 8, 3, 15, Math.PI / 6, orangeBuildingMaterial); // Use orange material
 addLabel(additionalBuilding, "801");
 
 function addLabel(building, text) {
@@ -117,9 +117,6 @@ gsap.to(sphere.position, {
       { x: 0, z: 0 },               
     ],
   });
-  
-  
-
 
 function animate() {
   controls.update();
